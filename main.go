@@ -19,6 +19,7 @@ func main() {
 	x_1 := 3.
 	dx := 0.01
 	df_dx := diff.DiffQuot(f, x_0, x_1, dx)
+	df_dx_sec := diff.SymDiffQuot(f, x_0, x_1, dx)
 
 	p := plot.New()
 
@@ -28,7 +29,8 @@ func main() {
 
 	err := plotutil.AddLinePoints(p,
 		"f", PlotFunc(x_0, x_1, dx),
-		"df/dx", PlotSlice(df_dx, x_0, dx))
+		"df/dx", PlotSlice(df_dx, x_0, dx),
+		"df/dx_sec", PlotSlice(df_dx_sec, x_0, dx))
 	if err != nil {
 		panic(err)
 	}
@@ -52,6 +54,7 @@ func PlotSlice(vals []float64, x_0, dx float64) plotter.XYs {
 	return pts
 }
 
+// PlotFunc returns a plot of a function in a given range
 func PlotFunc(x_0, x_1, dx float64) plotter.XYs {
 	sample_num := int(math.Abs(x_1-x_0) / dx)
 	pts := make(plotter.XYs, sample_num)
